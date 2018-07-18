@@ -1,0 +1,798 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MarketMadnessModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="MarketMadnessModelStoreContainer">
+          <EntitySet Name="CompanyProfile" EntityType="MarketMadnessModel.Store.CompanyProfile" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CompanyStats" EntityType="MarketMadnessModel.Store.CompanyStats" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CrudeOil" EntityType="MarketMadnessModel.Store.CrudeOil" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Industries" EntityType="MarketMadnessModel.Store.Industries" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Logs" EntityType="MarketMadnessModel.Store.Logs" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="predictions" EntityType="MarketMadnessModel.Store.predictions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="quotes" EntityType="MarketMadnessModel.Store.quotes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RaptureIndex" EntityType="MarketMadnessModel.Store.RaptureIndex" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Sectors" EntityType="MarketMadnessModel.Store.Sectors" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StockNames" EntityType="MarketMadnessModel.Store.StockNames" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Weather" EntityType="MarketMadnessModel.Store.Weather" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="simplestockquote" EntityType="MarketMadnessModel.Store.simplestockquote" store:Type="Views" store:Schema="dbo" store:Name="simplestockquote">
+            <DefiningQuery>SELECT 
+      [simplestockquote].[id] AS [id], 
+      [simplestockquote].[stock] AS [stock], 
+      [simplestockquote].[day] AS [day], 
+      [simplestockquote].[adjusted_close] AS [adjusted_close], 
+      [simplestockquote].[volume] AS [volume], 
+      [simplestockquote].[industry_id] AS [industry_id], 
+      [simplestockquote].[forward_pe] AS [forward_pe], 
+      [simplestockquote].[sector_id] AS [sector_id], 
+      [simplestockquote].[avg_executive_age] AS [avg_executive_age], 
+      [simplestockquote].[num_employees] AS [num_employees], 
+      [simplestockquote].[net_income_a_c] AS [net_income_a_c], 
+      [simplestockquote].[total_debt] AS [total_debt], 
+      [simplestockquote].[enterprise_value] AS [enterprise_value], 
+      [simplestockquote].[from_avg] AS [from_avg], 
+      [simplestockquote].[oil_price] AS [oil_price]
+      FROM [dbo].[simplestockquote] AS [simplestockquote]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_CompanyProfile_Industries" Association="MarketMadnessModel.Store.FK_CompanyProfile_Industries">
+            <End Role="Industries" EntitySet="Industries" />
+            <End Role="CompanyProfile" EntitySet="CompanyProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyProfile_Sectors" Association="MarketMadnessModel.Store.FK_CompanyProfile_Sectors">
+            <End Role="Sectors" EntitySet="Sectors" />
+            <End Role="CompanyProfile" EntitySet="CompanyProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyProfile_StockNames" Association="MarketMadnessModel.Store.FK_CompanyProfile_StockNames">
+            <End Role="StockNames" EntitySet="StockNames" />
+            <End Role="CompanyProfile" EntitySet="CompanyProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyStats_StockNames" Association="MarketMadnessModel.Store.FK_CompanyStats_StockNames">
+            <End Role="StockNames" EntitySet="StockNames" />
+            <End Role="CompanyStats" EntitySet="CompanyStats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Industries_Sectors" Association="MarketMadnessModel.Store.FK_Industries_Sectors">
+            <End Role="Sectors" EntitySet="Sectors" />
+            <End Role="Industries" EntitySet="Industries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_quotes_StockNames" Association="MarketMadnessModel.Store.FK_quotes_StockNames">
+            <End Role="StockNames" EntitySet="StockNames" />
+            <End Role="quotes" EntitySet="quotes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CompanyProfile">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="stock_id" Type="int" Nullable="false" />
+          <Property Name="scrape_day" Type="datetime" Nullable="false" />
+          <Property Name="sector_id" Type="int" />
+          <Property Name="industry_id" Type="int" />
+          <Property Name="num_employees" Type="int" />
+          <Property Name="summary" Type="text" />
+          <Property Name="cgq" Type="decimal" Scale="2" />
+          <Property Name="avg_executive_age" Type="int" />
+          <Property Name="avg_executive_pay" Type="bigint" />
+        </EntityType>
+        <EntityType Name="CompanyStats">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="stock_id" Type="int" Nullable="false" />
+          <Property Name="scrape_day" Type="datetime" Nullable="false" />
+          <Property Name="market_cap" Type="bigint" />
+          <Property Name="enterprise_value" Type="bigint" />
+          <Property Name="trailing_pe" Type="decimal" Scale="2" />
+          <Property Name="forward_pe" Type="decimal" Scale="2" />
+          <Property Name="peg_ratio" Type="decimal" Scale="2" />
+          <Property Name="price_sales" Type="decimal" Scale="2" />
+          <Property Name="price_book" Type="decimal" Scale="2" />
+          <Property Name="ent_value_rev" Type="decimal" Scale="2" />
+          <Property Name="ent_value_ebitda" Type="decimal" Scale="2" />
+          <Property Name="fiscal_year_ends" Type="varchar" MaxLength="100" />
+          <Property Name="most_recent_quarter" Type="varchar" MaxLength="100" />
+          <Property Name="profit_margin" Type="decimal" Scale="2" />
+          <Property Name="operating_margin" Type="decimal" Scale="2" />
+          <Property Name="return_on_assets" Type="decimal" Scale="2" />
+          <Property Name="return_on_equity" Type="decimal" Scale="2" />
+          <Property Name="revenue" Type="bigint" />
+          <Property Name="revenue_per_share" Type="decimal" Scale="2" />
+          <Property Name="qrt_rev_growth" Type="decimal" Scale="2" />
+          <Property Name="gross_profit" Type="bigint" />
+          <Property Name="ebitda" Type="bigint" />
+          <Property Name="net_income_a_c" Type="bigint" />
+          <Property Name="diluted_eps" Type="decimal" Scale="2" />
+          <Property Name="qrt_earnings_growth" Type="decimal" Scale="2" />
+          <Property Name="total_cash" Type="bigint" />
+          <Property Name="cash_per_share" Type="decimal" Scale="2" />
+          <Property Name="total_debt" Type="bigint" />
+          <Property Name="total_debt_equit" Type="decimal" Scale="2" />
+          <Property Name="current_ratio" Type="decimal" Scale="2" />
+          <Property Name="book_value_p_share" Type="decimal" Scale="2" />
+          <Property Name="operating_cash_flow" Type="bigint" />
+          <Property Name="levered_free_cash_flow" Type="bigint" />
+        </EntityType>
+        <EntityType Name="CrudeOil">
+          <Key>
+            <PropertyRef Name="Day" />
+          </Key>
+          <Property Name="Day" Type="date" Nullable="false" />
+          <Property Name="price_at_close" Type="decimal" Nullable="false" Scale="2" />
+        </EntityType>
+        <EntityType Name="Industries">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="sector_id" Type="int" Nullable="false" />
+          <Property Name="Iindustry" Type="varchar" Nullable="false" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Logs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="message" Type="text" Nullable="false" />
+          <Property Name="exception_message" Type="text" Nullable="false" />
+          <Property Name="exception_stacktrace" Type="text" Nullable="false" />
+          <Property Name="transaction_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="predictions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="day" Type="datetime" Nullable="false" />
+          <Property Name="stock" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="20_Days_Close" Type="decimal" Nullable="false" Scale="2" />
+        </EntityType>
+        <EntityType Name="quotes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="stock_id" Type="int" Nullable="false" />
+          <Property Name="day" Type="datetime" Nullable="false" />
+          <Property Name="open" Type="decimal" Nullable="false" Scale="2" />
+          <Property Name="high" Type="decimal" Nullable="false" Scale="2" />
+          <Property Name="low" Type="decimal" Nullable="false" Scale="2" />
+          <Property Name="close" Type="decimal" Nullable="false" Scale="2" />
+          <Property Name="volume" Type="bigint" Nullable="false" />
+          <Property Name="adjusted_close" Type="decimal" Nullable="false" Scale="2" />
+        </EntityType>
+        <EntityType Name="RaptureIndex">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="rapture_day" Type="datetime" Nullable="false" />
+          <Property Name="rapture_index" Type="int" Nullable="false" />
+          <Property Name="oil" Type="int" />
+          <Property Name="debt" Type="int" />
+          <Property Name="economy" Type="int" />
+          <Property Name="weather" Type="int" />
+          <Property Name="globalism" Type="int" />
+        </EntityType>
+        <EntityType Name="Sectors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Sector" Type="varchar" Nullable="false" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="StockNames">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Stock" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="Exchange" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Company_Name" Type="varchar" MaxLength="1000" />
+          <Property Name="Country" Type="varchar" MaxLength="200" />
+          <Property Name="HasData" Type="bit" />
+        </EntityType>
+        <EntityType Name="Weather">
+          <Key>
+            <PropertyRef Name="day" />
+          </Key>
+          <Property Name="day" Type="datetime" Nullable="false" />
+          <Property Name="from_avg" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'MarketMadness.dbo.simplestockquote' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="simplestockquote">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="stock" />
+            <PropertyRef Name="day" />
+            <PropertyRef Name="adjusted_close" />
+            <PropertyRef Name="volume" />
+            <PropertyRef Name="from_avg" />
+            <PropertyRef Name="oil_price" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="stock" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="day" Type="datetime" Nullable="false" />
+          <Property Name="adjusted_close" Type="decimal" Nullable="false" Scale="2" />
+          <Property Name="volume" Type="bigint" Nullable="false" />
+          <Property Name="industry_id" Type="int" />
+          <Property Name="forward_pe" Type="decimal" Scale="2" />
+          <Property Name="sector_id" Type="int" />
+          <Property Name="avg_executive_age" Type="int" />
+          <Property Name="num_employees" Type="int" />
+          <Property Name="net_income_a_c" Type="bigint" />
+          <Property Name="total_debt" Type="bigint" />
+          <Property Name="enterprise_value" Type="bigint" />
+          <Property Name="from_avg" Type="int" Nullable="false" />
+          <Property Name="oil_price" Type="decimal" Nullable="false" Scale="2" />
+        </EntityType>
+        <Association Name="FK_CompanyProfile_Industries">
+          <End Role="Industries" Type="MarketMadnessModel.Store.Industries" Multiplicity="0..1" />
+          <End Role="CompanyProfile" Type="MarketMadnessModel.Store.CompanyProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Industries">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CompanyProfile">
+              <PropertyRef Name="industry_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyProfile_Sectors">
+          <End Role="Sectors" Type="MarketMadnessModel.Store.Sectors" Multiplicity="0..1" />
+          <End Role="CompanyProfile" Type="MarketMadnessModel.Store.CompanyProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sectors">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CompanyProfile">
+              <PropertyRef Name="sector_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyProfile_StockNames">
+          <End Role="StockNames" Type="MarketMadnessModel.Store.StockNames" Multiplicity="1" />
+          <End Role="CompanyProfile" Type="MarketMadnessModel.Store.CompanyProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockNames">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CompanyProfile">
+              <PropertyRef Name="stock_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyStats_StockNames">
+          <End Role="StockNames" Type="MarketMadnessModel.Store.StockNames" Multiplicity="1" />
+          <End Role="CompanyStats" Type="MarketMadnessModel.Store.CompanyStats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockNames">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CompanyStats">
+              <PropertyRef Name="stock_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Industries_Sectors">
+          <End Role="Sectors" Type="MarketMadnessModel.Store.Sectors" Multiplicity="1" />
+          <End Role="Industries" Type="MarketMadnessModel.Store.Industries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sectors">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Industries">
+              <PropertyRef Name="sector_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_quotes_StockNames">
+          <End Role="StockNames" Type="MarketMadnessModel.Store.StockNames" Multiplicity="1" />
+          <End Role="quotes" Type="MarketMadnessModel.Store.quotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockNames">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="quotes">
+              <PropertyRef Name="stock_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MarketMadnessModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ModelMadness">
+          <EntitySet Name="CompanyProfiles" EntityType="MarketMadnessModel.CompanyProfile" />
+          <EntitySet Name="CompanyStats" EntityType="MarketMadnessModel.CompanyStat" />
+          <EntitySet Name="Industries" EntityType="MarketMadnessModel.Industry" />
+          <EntitySet Name="Logs" EntityType="MarketMadnessModel.Log" />
+          <EntitySet Name="predictions" EntityType="MarketMadnessModel.prediction" />
+          <EntitySet Name="quotes" EntityType="MarketMadnessModel.quote" />
+          <EntitySet Name="Sectors" EntityType="MarketMadnessModel.Sector" />
+          <EntitySet Name="StockNames" EntityType="MarketMadnessModel.StockName" />
+          <EntitySet Name="simplestockquotes" EntityType="MarketMadnessModel.simplestockquote" />
+          <AssociationSet Name="FK_CompanyProfile_Industries" Association="MarketMadnessModel.FK_CompanyProfile_Industries">
+            <End Role="Industries" EntitySet="Industries" />
+            <End Role="CompanyProfile" EntitySet="CompanyProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyProfile_Sectors" Association="MarketMadnessModel.FK_CompanyProfile_Sectors">
+            <End Role="Sectors" EntitySet="Sectors" />
+            <End Role="CompanyProfile" EntitySet="CompanyProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyProfile_StockNames" Association="MarketMadnessModel.FK_CompanyProfile_StockNames">
+            <End Role="StockNames" EntitySet="StockNames" />
+            <End Role="CompanyProfile" EntitySet="CompanyProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyStats_StockNames" Association="MarketMadnessModel.FK_CompanyStats_StockNames">
+            <End Role="StockNames" EntitySet="StockNames" />
+            <End Role="CompanyStats" EntitySet="CompanyStats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Industries_Sectors" Association="MarketMadnessModel.FK_Industries_Sectors">
+            <End Role="Sectors" EntitySet="Sectors" />
+            <End Role="Industries" EntitySet="Industries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_quotes_StockNames" Association="MarketMadnessModel.FK_quotes_StockNames">
+            <End Role="StockNames" EntitySet="StockNames" />
+            <End Role="quotes" EntitySet="quotes" />
+          </AssociationSet>
+          <EntitySet Name="RaptureIndexes" EntityType="MarketMadnessModel.RaptureIndex" />
+          <EntitySet Name="Weathers" EntityType="MarketMadnessModel.Weather" />
+          <EntitySet Name="CrudeOils" EntityType="MarketMadnessModel.CrudeOil" />
+        </EntityContainer>
+        <EntityType Name="CompanyProfile">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="scrape_day" Type="DateTime" Nullable="false" />
+          <Property Name="num_employees" Type="Int32" />
+          <Property Name="summary" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="cgq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="avg_executive_age" Type="Int32" />
+          <Property Name="avg_executive_pay" Type="Int64" />
+          <NavigationProperty Name="Industry" Relationship="MarketMadnessModel.FK_CompanyProfile_Industries" FromRole="CompanyProfile" ToRole="Industries" />
+          <NavigationProperty Name="Sector" Relationship="MarketMadnessModel.FK_CompanyProfile_Sectors" FromRole="CompanyProfile" ToRole="Sectors" />
+          <NavigationProperty Name="StockName" Relationship="MarketMadnessModel.FK_CompanyProfile_StockNames" FromRole="CompanyProfile" ToRole="StockNames" />
+        </EntityType>
+        <EntityType Name="CompanyStat">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="scrape_day" Type="DateTime" Nullable="false" />
+          <Property Name="market_cap" Type="Int64" />
+          <Property Name="enterprise_value" Type="Int64" />
+          <Property Name="trailing_pe" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="forward_pe" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="peg_ratio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="price_sales" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="price_book" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ent_value_rev" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ent_value_ebitda" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="fiscal_year_ends" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="most_recent_quarter" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="profit_margin" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="operating_margin" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="return_on_assets" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="return_on_equity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="revenue" Type="Int64" />
+          <Property Name="revenue_per_share" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="qrt_rev_growth" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="gross_profit" Type="Int64" />
+          <Property Name="ebitda" Type="Int64" />
+          <Property Name="net_income_a_c" Type="Int64" />
+          <Property Name="diluted_eps" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="qrt_earnings_growth" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="total_cash" Type="Int64" />
+          <Property Name="cash_per_share" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="total_debt" Type="Int64" />
+          <Property Name="total_debt_equit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="current_ratio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="book_value_p_share" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="operating_cash_flow" Type="Int64" />
+          <Property Name="levered_free_cash_flow" Type="Int64" />
+          <NavigationProperty Name="StockName" Relationship="MarketMadnessModel.FK_CompanyStats_StockNames" FromRole="CompanyStats" ToRole="StockNames" />
+        </EntityType>
+        <EntityType Name="Industry">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Iindustry" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="CompanyProfiles" Relationship="MarketMadnessModel.FK_CompanyProfile_Industries" FromRole="Industries" ToRole="CompanyProfile" />
+          <NavigationProperty Name="Sector" Relationship="MarketMadnessModel.FK_Industries_Sectors" FromRole="Industries" ToRole="Sectors" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="message" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="exception_message" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="exception_stacktrace" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="transaction_date" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="prediction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="day" Type="DateTime" Nullable="false" />
+          <Property Name="stock" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Type="Decimal" Name="C20_Days_Close" Nullable="false" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="quote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="day" Type="DateTime" Nullable="false" />
+          <Property Name="open" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="high" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="low" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="close" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="volume" Type="Int64" Nullable="false" />
+          <Property Name="adjusted_close" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="StockName" Relationship="MarketMadnessModel.FK_quotes_StockNames" FromRole="quotes" ToRole="StockNames" />
+        </EntityType>
+        <EntityType Name="Sector">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Sector1" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="CompanyProfiles" Relationship="MarketMadnessModel.FK_CompanyProfile_Sectors" FromRole="Sectors" ToRole="CompanyProfile" />
+          <NavigationProperty Name="Industries" Relationship="MarketMadnessModel.FK_Industries_Sectors" FromRole="Sectors" ToRole="Industries" />
+        </EntityType>
+        <EntityType Name="StockName">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Stock" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="Exchange" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Company_Name" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="Country" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="HasData" Type="Boolean" />
+          <NavigationProperty Name="CompanyProfiles" Relationship="MarketMadnessModel.FK_CompanyProfile_StockNames" FromRole="StockNames" ToRole="CompanyProfile" />
+          <NavigationProperty Name="CompanyStats" Relationship="MarketMadnessModel.FK_CompanyStats_StockNames" FromRole="StockNames" ToRole="CompanyStats" />
+          <NavigationProperty Name="quotes" Relationship="MarketMadnessModel.FK_quotes_StockNames" FromRole="StockNames" ToRole="quotes" />
+        </EntityType>
+        <EntityType Name="simplestockquote">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="stock" />
+            <PropertyRef Name="day" />
+            <PropertyRef Name="adjusted_close" />
+            <PropertyRef Name="volume" />
+            <PropertyRef Name="from_avg" />
+            <PropertyRef Name="oil_price" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="stock" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="day" Type="DateTime" Nullable="false" />
+          <Property Name="adjusted_close" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="volume" Type="Int64" Nullable="false" />
+          <Property Name="industry_id" Type="Int32" />
+          <Property Name="forward_pe" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="sector_id" Type="Int32" />
+          <Property Name="avg_executive_age" Type="Int32" />
+          <Property Name="num_employees" Type="Int32" />
+          <Property Name="net_income_a_c" Type="Int64" />
+          <Property Name="total_debt" Type="Int64" />
+          <Property Name="enterprise_value" Type="Int64" />
+          <Property Type="Int32" Name="from_avg" Nullable="false" />
+          <Property Type="Decimal" Name="oil_price" Nullable="false" Precision="18" Scale="2" />
+        </EntityType>
+        <Association Name="FK_CompanyProfile_Industries">
+          <End Role="Industries" Type="MarketMadnessModel.Industry" Multiplicity="0..1" />
+          <End Role="CompanyProfile" Type="MarketMadnessModel.CompanyProfile" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_CompanyProfile_Sectors">
+          <End Role="Sectors" Type="MarketMadnessModel.Sector" Multiplicity="0..1" />
+          <End Role="CompanyProfile" Type="MarketMadnessModel.CompanyProfile" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_CompanyProfile_StockNames">
+          <End Role="StockNames" Type="MarketMadnessModel.StockName" Multiplicity="1" />
+          <End Role="CompanyProfile" Type="MarketMadnessModel.CompanyProfile" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_CompanyStats_StockNames">
+          <End Role="StockNames" Type="MarketMadnessModel.StockName" Multiplicity="1" />
+          <End Role="CompanyStats" Type="MarketMadnessModel.CompanyStat" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Industries_Sectors">
+          <End Role="Sectors" Type="MarketMadnessModel.Sector" Multiplicity="1" />
+          <End Role="Industries" Type="MarketMadnessModel.Industry" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_quotes_StockNames">
+          <End Role="StockNames" Type="MarketMadnessModel.StockName" Multiplicity="1" />
+          <End Role="quotes" Type="MarketMadnessModel.quote" Multiplicity="*" />
+        </Association>
+        <EntityType Name="RaptureIndex">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" Name="id" Nullable="false" a:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="rapture_day" Nullable="false" Type="DateTime" />
+          <Property Name="rapture_index" Nullable="false" Type="Int32" />
+          <Property Name="oil" Type="Int32" />
+          <Property Name="debt" Type="Int32" />
+          <Property Name="economy" Type="Int32" />
+          <Property Name="weather" Type="Int32" />
+          <Property Name="globalism" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Weather">
+          <Key>
+            <PropertyRef Name="day" />
+          </Key>
+          <Property Type="DateTime" Name="day" Nullable="false" />
+          <Property Type="Int32" Name="from_avg" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CrudeOil">
+          <Key>
+            <PropertyRef Name="Day" />
+          </Key>
+          <Property Type="DateTime" Name="Day" Nullable="false" />
+          <Property Type="Decimal" Name="price_at_close" Nullable="false" Precision="18" Scale="2" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MarketMadnessModelStoreContainer" CdmEntityContainer="ModelMadness">
+          <EntitySetMapping Name="CompanyProfiles"><EntityTypeMapping TypeName="MarketMadnessModel.CompanyProfile"><MappingFragment StoreEntitySet="CompanyProfile">
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="scrape_day" ColumnName="scrape_day" />
+            <ScalarProperty Name="num_employees" ColumnName="num_employees" />
+            <ScalarProperty Name="summary" ColumnName="summary" />
+            <ScalarProperty Name="cgq" ColumnName="cgq" />
+            <ScalarProperty Name="avg_executive_age" ColumnName="avg_executive_age" />
+            <ScalarProperty Name="avg_executive_pay" ColumnName="avg_executive_pay" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="CompanyStats"><EntityTypeMapping TypeName="MarketMadnessModel.CompanyStat"><MappingFragment StoreEntitySet="CompanyStats">
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="scrape_day" ColumnName="scrape_day" />
+            <ScalarProperty Name="market_cap" ColumnName="market_cap" />
+            <ScalarProperty Name="enterprise_value" ColumnName="enterprise_value" />
+            <ScalarProperty Name="trailing_pe" ColumnName="trailing_pe" />
+            <ScalarProperty Name="forward_pe" ColumnName="forward_pe" />
+            <ScalarProperty Name="peg_ratio" ColumnName="peg_ratio" />
+            <ScalarProperty Name="price_sales" ColumnName="price_sales" />
+            <ScalarProperty Name="price_book" ColumnName="price_book" />
+            <ScalarProperty Name="ent_value_rev" ColumnName="ent_value_rev" />
+            <ScalarProperty Name="ent_value_ebitda" ColumnName="ent_value_ebitda" />
+            <ScalarProperty Name="fiscal_year_ends" ColumnName="fiscal_year_ends" />
+            <ScalarProperty Name="most_recent_quarter" ColumnName="most_recent_quarter" />
+            <ScalarProperty Name="profit_margin" ColumnName="profit_margin" />
+            <ScalarProperty Name="operating_margin" ColumnName="operating_margin" />
+            <ScalarProperty Name="return_on_assets" ColumnName="return_on_assets" />
+            <ScalarProperty Name="return_on_equity" ColumnName="return_on_equity" />
+            <ScalarProperty Name="revenue" ColumnName="revenue" />
+            <ScalarProperty Name="revenue_per_share" ColumnName="revenue_per_share" />
+            <ScalarProperty Name="qrt_rev_growth" ColumnName="qrt_rev_growth" />
+            <ScalarProperty Name="gross_profit" ColumnName="gross_profit" />
+            <ScalarProperty Name="ebitda" ColumnName="ebitda" />
+            <ScalarProperty Name="net_income_a_c" ColumnName="net_income_a_c" />
+            <ScalarProperty Name="diluted_eps" ColumnName="diluted_eps" />
+            <ScalarProperty Name="qrt_earnings_growth" ColumnName="qrt_earnings_growth" />
+            <ScalarProperty Name="total_cash" ColumnName="total_cash" />
+            <ScalarProperty Name="cash_per_share" ColumnName="cash_per_share" />
+            <ScalarProperty Name="total_debt" ColumnName="total_debt" />
+            <ScalarProperty Name="total_debt_equit" ColumnName="total_debt_equit" />
+            <ScalarProperty Name="current_ratio" ColumnName="current_ratio" />
+            <ScalarProperty Name="book_value_p_share" ColumnName="book_value_p_share" />
+            <ScalarProperty Name="operating_cash_flow" ColumnName="operating_cash_flow" />
+            <ScalarProperty Name="levered_free_cash_flow" ColumnName="levered_free_cash_flow" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Industries"><EntityTypeMapping TypeName="MarketMadnessModel.Industry"><MappingFragment StoreEntitySet="Industries">
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="Iindustry" ColumnName="Iindustry" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Logs"><EntityTypeMapping TypeName="MarketMadnessModel.Log"><MappingFragment StoreEntitySet="Logs">
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="message" ColumnName="message" />
+            <ScalarProperty Name="exception_message" ColumnName="exception_message" />
+            <ScalarProperty Name="exception_stacktrace" ColumnName="exception_stacktrace" />
+            <ScalarProperty Name="transaction_date" ColumnName="transaction_date" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="predictions"><EntityTypeMapping TypeName="MarketMadnessModel.prediction"><MappingFragment StoreEntitySet="predictions">
+            <ScalarProperty Name="C20_Days_Close" ColumnName="20_Days_Close" />
+                <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="day" ColumnName="day" />
+            <ScalarProperty Name="stock" ColumnName="stock" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="quotes"><EntityTypeMapping TypeName="MarketMadnessModel.quote"><MappingFragment StoreEntitySet="quotes">
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="day" ColumnName="day" />
+            <ScalarProperty Name="open" ColumnName="open" />
+            <ScalarProperty Name="high" ColumnName="high" />
+            <ScalarProperty Name="low" ColumnName="low" />
+            <ScalarProperty Name="close" ColumnName="close" />
+            <ScalarProperty Name="volume" ColumnName="volume" />
+            <ScalarProperty Name="adjusted_close" ColumnName="adjusted_close" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Sectors"><EntityTypeMapping TypeName="MarketMadnessModel.Sector"><MappingFragment StoreEntitySet="Sectors">
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="Sector1" ColumnName="Sector" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="StockNames"><EntityTypeMapping TypeName="MarketMadnessModel.StockName"><MappingFragment StoreEntitySet="StockNames">
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="Stock" ColumnName="Stock" />
+            <ScalarProperty Name="Exchange" ColumnName="Exchange" />
+            <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+            <ScalarProperty Name="Country" ColumnName="Country" />
+            <ScalarProperty Name="HasData" ColumnName="HasData" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="simplestockquotes"><EntityTypeMapping TypeName="MarketMadnessModel.simplestockquote"><MappingFragment StoreEntitySet="simplestockquote">
+                <ScalarProperty Name="oil_price" ColumnName="oil_price" />
+                <ScalarProperty Name="from_avg" ColumnName="from_avg" />
+                <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="stock" ColumnName="stock" />
+            <ScalarProperty Name="day" ColumnName="day" />
+            <ScalarProperty Name="adjusted_close" ColumnName="adjusted_close" />
+            <ScalarProperty Name="volume" ColumnName="volume" />
+            <ScalarProperty Name="industry_id" ColumnName="industry_id" />
+            <ScalarProperty Name="forward_pe" ColumnName="forward_pe" />
+            <ScalarProperty Name="sector_id" ColumnName="sector_id" />
+            <ScalarProperty Name="avg_executive_age" ColumnName="avg_executive_age" />
+            <ScalarProperty Name="num_employees" ColumnName="num_employees" />
+            <ScalarProperty Name="net_income_a_c" ColumnName="net_income_a_c" />
+            <ScalarProperty Name="total_debt" ColumnName="total_debt" />
+            <ScalarProperty Name="enterprise_value" ColumnName="enterprise_value" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_CompanyProfile_Industries" TypeName="MarketMadnessModel.FK_CompanyProfile_Industries" StoreEntitySet="CompanyProfile">
+            <EndProperty Name="Industries">
+              <ScalarProperty Name="id" ColumnName="industry_id" />
+            </EndProperty>
+            <EndProperty Name="CompanyProfile">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+            <Condition ColumnName="industry_id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_CompanyProfile_Sectors" TypeName="MarketMadnessModel.FK_CompanyProfile_Sectors" StoreEntitySet="CompanyProfile">
+            <EndProperty Name="Sectors">
+              <ScalarProperty Name="id" ColumnName="sector_id" />
+            </EndProperty>
+            <EndProperty Name="CompanyProfile">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+            <Condition ColumnName="sector_id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_CompanyProfile_StockNames" TypeName="MarketMadnessModel.FK_CompanyProfile_StockNames" StoreEntitySet="CompanyProfile">
+            <EndProperty Name="StockNames">
+              <ScalarProperty Name="id" ColumnName="stock_id" />
+            </EndProperty>
+            <EndProperty Name="CompanyProfile">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_CompanyStats_StockNames" TypeName="MarketMadnessModel.FK_CompanyStats_StockNames" StoreEntitySet="CompanyStats">
+            <EndProperty Name="StockNames">
+              <ScalarProperty Name="id" ColumnName="stock_id" />
+            </EndProperty>
+            <EndProperty Name="CompanyStats">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Industries_Sectors" TypeName="MarketMadnessModel.FK_Industries_Sectors" StoreEntitySet="Industries">
+            <EndProperty Name="Sectors">
+              <ScalarProperty Name="id" ColumnName="sector_id" />
+            </EndProperty>
+            <EndProperty Name="Industries">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_quotes_StockNames" TypeName="MarketMadnessModel.FK_quotes_StockNames" StoreEntitySet="quotes">
+            <EndProperty Name="StockNames">
+              <ScalarProperty Name="id" ColumnName="stock_id" />
+            </EndProperty>
+            <EndProperty Name="quotes">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="RaptureIndexes">
+            <EntityTypeMapping TypeName="MarketMadnessModel.RaptureIndex">
+              <MappingFragment StoreEntitySet="RaptureIndex">
+                <ScalarProperty Name="globalism" ColumnName="globalism" />
+                <ScalarProperty Name="weather" ColumnName="weather" />
+                <ScalarProperty Name="economy" ColumnName="economy" />
+                <ScalarProperty Name="debt" ColumnName="debt" />
+                <ScalarProperty Name="oil" ColumnName="oil" />
+                <ScalarProperty Name="rapture_index" ColumnName="rapture_index" />
+                <ScalarProperty Name="rapture_day" ColumnName="rapture_day" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Weathers">
+            <EntityTypeMapping TypeName="MarketMadnessModel.Weather">
+              <MappingFragment StoreEntitySet="Weather">
+                <ScalarProperty Name="from_avg" ColumnName="from_avg" />
+                <ScalarProperty Name="day" ColumnName="day" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CrudeOils">
+            <EntityTypeMapping TypeName="MarketMadnessModel.CrudeOil">
+              <MappingFragment StoreEntitySet="CrudeOil">
+                <ScalarProperty Name="price_at_close" ColumnName="price_at_close" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="ModelMadness">
+        <EntityTypeShape EntityType="MarketMadnessModel.CompanyProfile" Width="1.5" PointX="6" PointY="7.5" Height="2.9417936197916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketMadnessModel.CompanyStat" Width="1.5" PointX="3" PointY="7.125" Height="7.5570279947916665" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketMadnessModel.Industry" Width="1.5" PointX="3.75" PointY="4" Height="1.7879850260416657" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketMadnessModel.Log" Width="1.5" PointX="0.75" PointY="0.75" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketMadnessModel.prediction" Width="1.5" PointX="2.75" PointY="0.75" Height="1.787985026041667" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketMadnessModel.quote" Width="1.5" PointX="3" PointY="15.375" Height="2.7494921874999978" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketMadnessModel.Sector" Width="1.5" PointX="1.5" PointY="4" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketMadnessModel.StockName" Width="1.5" PointX="0.75" PointY="7.5" Height="2.7494921874999996" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketMadnessModel.simplestockquote" Width="1.5" PointX="5.75" PointY="0.75" Height="3.7109993489583326" IsExpanded="true" />
+        <AssociationConnector Association="MarketMadnessModel.FK_CompanyProfile_Industries" ManuallyRouted="false">
+          <ConnectorPoint PointX="5.25" PointY="5.0595914713541665" />
+          <ConnectorPoint PointX="7.40625" PointY="5.0595914713541665" />
+          <ConnectorPoint PointX="7.40625" PointY="7.5" />
+        </AssociationConnector>
+        <AssociationConnector Association="MarketMadnessModel.FK_CompanyProfile_Sectors" ManuallyRouted="false">
+          <ConnectorPoint PointX="3" PointY="5.7879850260416674" />
+          <ConnectorPoint PointX="3.375" PointY="6.1629850260416674" />
+          <ConnectorPoint PointX="6.671873" PointY="6.1629850260416674" />
+          <ConnectorPoint PointX="6.671873" PointY="7.5" />
+        </AssociationConnector>
+        <AssociationConnector Association="MarketMadnessModel.FK_CompanyProfile_StockNames" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="8.87474609375" />
+          <ConnectorPoint PointX="2.75" PointY="8.87474609375" />
+          <ConnectorPoint PointX="2.75" PointY="6.875" />
+          <ConnectorPoint PointX="6.3046845000000005" PointY="6.875" />
+          <ConnectorPoint PointX="6.3046845000000005" PointY="7.5" />
+        </AssociationConnector>
+        <AssociationConnector Association="MarketMadnessModel.FK_CompanyStats_StockNames" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="8.124873046874999" />
+          <ConnectorPoint PointX="2.6666666666666665" PointY="8.124873046874999" />
+          <ConnectorPoint PointX="2.8333333333333335" PointY="8.124873046874999" />
+          <ConnectorPoint PointX="3" PointY="8.124873046874999" />
+        </AssociationConnector>
+        <AssociationConnector Association="MarketMadnessModel.FK_Industries_Sectors" ManuallyRouted="false">
+          <ConnectorPoint PointX="3" PointY="4.8627400130208329" />
+          <ConnectorPoint PointX="3.75" PointY="4.8627400130208329" />
+        </AssociationConnector>
+        <AssociationConnector Association="MarketMadnessModel.FK_quotes_StockNames" ManuallyRouted="false">
+          <ConnectorPoint PointX="1.5" PointY="10.2494921875" />
+          <ConnectorPoint PointX="1.5" PointY="16.749746093749998" />
+          <ConnectorPoint PointX="3" PointY="16.749746093749998" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="MarketMadnessModel.RaptureIndex" PointX="8.375" PointY="0.75" Width="1.5" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="MarketMadnessModel.Weather" Width="1.5" PointX="8.375" PointY="4.75" Height="1.4033821614583353" />
+        <EntityTypeShape EntityType="MarketMadnessModel.CrudeOil" Width="1.5" PointX="8.375" PointY="7.75" Height="1.4033821614583317" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
